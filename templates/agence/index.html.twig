@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Agences{% endblock %}
+
+{% block body %}
+<div class="container mx-auto mt-10 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Liste des Agences</h1>
+
+                                        <a href="{{ path('app_agence_add') }}" class="text-white bg-blue-500 hover:bg-green-700 px-3 py-1 rounded-lg " style="margin-left:1100px;margin-top:-30px;padding:10px">Ajouter</a>
+
+    <form method="get" action="{{ path('app_agence') }}" class="flex justify-center mb-8 gap-4">
+        <input 
+            type="text" 
+            name="search_numero" 
+            placeholder="Numéro" 
+            value="{{ app.request.get('search_numero') }}"
+            class="border border-gray-300 rounded-lg px-4 py-2 w-1/4 focus:ring focus:ring-indigo-300"
+        >
+        <input 
+            type="text" 
+            name="search_telephone" 
+            placeholder="Téléphone" 
+            value="{{ app.request.get('search_telephone') }}"
+            class="border border-gray-300 rounded-lg px-4 py-2 w-1/4 focus:ring focus:ring-indigo-300"
+        >
+        <button 
+            type="submit" 
+            class="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg"
+        >
+            Rechercher
+        </button>
+    </form>
+
+    <table class="min-w-full bg-white border border-gray-200 shadow-lg">
+        <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <tr>
+                <th class="py-3 px-6 text-left">Numéro</th>
+                <th class="py-3 px-6 text-left">Adresse</th>
+                <th class="py-3 px-6 text-left">Téléphone</th>
+                <th class="py-3 px-6 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700">
+            {% for agence in agences %}
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="py-3 px-6">{{ agence.numero }}</td>
+                    <td class="py-3 px-6">{{ agence.adresse }}</td>
+                    <td class="py-3 px-6">{{ agence.telephone }}</td>
+                    <td class="py-3 px-6 whitespace-nowrap">
+                        <a href="#" class="text-white bg-green-500 hover:bg-green-700 px-3 py-1 rounded-lg">View</a>
+                        <a href="#" class="text-white bg-red-500 hover:bg-red-700 px-3 py-1 rounded-lg ml-2">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="py-4 text-center text-gray-500">Aucune agence trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-6 flex justify-center">
+        {{ knp_pagination_render(agences) }}
+    </div>
+</div>
+{% endblock %}
